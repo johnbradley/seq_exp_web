@@ -110,7 +110,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </section>
 
             <section data-route="project-edit">
-              <project-edit></project-edit>
+              <project-edit urlbase="http://localhost:5000/projects/"
+                  project-id="{{params.name}}"></project-edit>
             </section>
 
             <section data-route="users">

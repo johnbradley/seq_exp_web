@@ -35,12 +35,12 @@
 
     <h2 class="page-title"><span>Projects</span></h2>
     <template is="dom-repeat" items="[[ajaxResponse.items]]">
+      <a href="[[computeUrl(item.id)]]" class="inherit">
         <div class="item" tabindex="0">
-            <a href="[[computeUrl(item.id)]]" class="inherit">
               <iron-icon icon="folder">Test</iron-icon>
               <span class="paper-font-body1">[[item.title]]</span>
-            </a>
         </div>
+        </a>
     </template>
 
 

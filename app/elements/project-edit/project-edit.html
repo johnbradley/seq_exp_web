@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <dom-module id="project-edit">
-  <template>
+  <template  is="dom-bind">
     <style include="shared-styles"></style>
     <style>
       :host {
@@ -13,17 +13,16 @@
       }
     </style>
 
-<template is="dom-bind">
+
     <iron-ajax auto
-        url="http://localhost:5000/projects/61"
+        url="{{computeUrl(projectId)}}"
         params='{}'
         handle-as="json"
         last-response="{{ajaxResponse}}">
     </iron-ajax>
-
-    <h2 class="page-title"><span>Project</span></h2>
+    <h2 class="page-title"><span>Project:</span></h2>
     <h2><span>{{ajaxResponse.title}}</span></h2>
-  </template>
+
 </template>
 
   <script>
@@ -32,9 +31,24 @@
 
       Polymer({
         is: 'project-edit',
+        handleClick: function() {
+          alert('Ow!');
+        },
 
         properties: {
-        }
+          projectId: {
+            type: String,
+            value: ''
+          },
+          urlbase: {
+            type: String,
+            value: ''
+          },
+        },
+        computeUrl: function(projectId) {
+          return 'http://localhost:5000/projects/' + projectId
+      }
+
       });
     })();
   </script>
