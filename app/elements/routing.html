@@ -24,7 +24,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     // Routes
     page('/', scrollToTop, function() {
-      app.route = 'home';
+      app.route = 'projects';
+    });
+
+    page('/projects/:name', scrollToTop, function(data) {
+      app.route = 'project-edit';
+      app.params = data.params;
     });
 
     page('/users', scrollToTop, function() {

@@ -69,14 +69,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <!-- Drawer Content -->
         <paper-menu class="list" attr-for-selected="data-route" selected="[[route]]">
-          <a data-route="home" href="/" on-click="onDataRouteClick">
+          <a data-route="projects" href="/" on-click="onDataRouteClick">
             <iron-icon icon="perm-media"></iron-icon>
             <span>Projects</span>
           </a>
 
           <a data-route="users" href="/users" on-click="onDataRouteClick">
-            <iron-icon icon="perm-data-setting"></iron-icon>
-            <span>Tasks</span>
+            <iron-icon icon="search"></iron-icon>
+            <span>Search</span>
           </a>
 
           <a data-route="contact" href="/contact" on-click="onDataRouteClick">
@@ -94,10 +94,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
           <span class="flex"></span>
 
-          <!-- Toolbar icons -->
-          <paper-icon-button icon="refresh"></paper-icon-button>
-          <paper-icon-button icon="search"></paper-icon-button>
-
           <!-- Application name -->
           <div class="middle middle-container center horizontal layout">
             <div class="app-name">Sequence Explorer</div>
@@ -109,15 +105,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
 
-            <section data-route="home">
-              <my-greeting></my-greeting>
+            <section data-route="projects">
+              <projects-list></projects-list>
+            </section>
+
+            <section data-route="project-edit">
+              <project-edit></project-edit>
             </section>
 
             <section data-route="users">
               <paper-material elevation="1">
-                <h2 class="page-title">Users</h2>
-                <p>This is the users section</p>
-                <a href="/users/Rob">Rob</a>
+                <h2 class="page-title">Search</h2>
               </paper-material>
             </section>
 

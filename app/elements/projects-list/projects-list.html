@@ -1,0 +1,70 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="projects-list">
+  <template is="dom-bind">
+    <style include="shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+      }
+      .item {
+        @apply(--layout-horizontal);
+        margin: 16px 16px 0 16px;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: white;
+        border: 1px solid #ddd;
+      }
+      iron-icon {
+        color: cyan;
+        margin-right: 20px;
+      }
+      .inherit {
+        color: inherit;
+        background-color: inherit;
+        text-decoration: none;
+      }
+    </style>
+
+    <iron-ajax auto
+        url="http://localhost:5000/projects"
+        params='{}'
+        handle-as="json"
+        last-response="{{ajaxResponse}}">
+    </iron-ajax>
+
+    <h2 class="page-title"><span>Projects</span></h2>
+    <template is="dom-repeat" items="[[ajaxResponse.items]]">
+        <div class="item" tabindex="0">
+            <a href="[[computeUrl(item.id)]]" class="inherit">
+              <iron-icon icon="folder">Test</iron-icon>
+              <span class="paper-font-body1">[[item.title]]</span>
+            </a>
+        </div>
+    </template>
+
+
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'projects-list',
+
+        properties: {
+          greeting: {
+            type: String,
+            value: 'Welcome!',
+            notify: true
+          }
+        },
+        computeUrl: function(itemId) {
+          return 'projects/' + itemId;
+        }
+      });
+    })();
+  </script>
+
+</dom-module>

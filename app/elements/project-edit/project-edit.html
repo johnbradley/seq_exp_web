@@ -1,0 +1,42 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="project-edit">
+  <template>
+    <style include="shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+      }
+      iron-icon {
+        color: cyan;
+        margin-right: 20px;
+      }
+    </style>
+
+<template is="dom-bind">
+    <iron-ajax auto
+        url="http://localhost:5000/projects/61"
+        params='{}'
+        handle-as="json"
+        last-response="{{ajaxResponse}}">
+    </iron-ajax>
+
+    <h2 class="page-title"><span>Project</span></h2>
+    <h2><span>{{ajaxResponse.title}}</span></h2>
+  </template>
+</template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'project-edit',
+
+        properties: {
+        }
+      });
+    })();
+  </script>
+
+</dom-module>
