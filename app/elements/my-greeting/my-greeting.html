@@ -10,23 +10,50 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <dom-module id="my-greeting">
-  <template>
+  <template is="dom-bind">
     <style include="shared-styles"></style>
     <style>
       :host {
         display: block;
       }
+      .item {
+        @apply(--layout-horizontal);
+        margin: 16px 16px 0 16px;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: white;
+        border: 1px solid #ddd;
+      }
+      paper-icon-button {
+        color: cyan;
+      }
     </style>
-    <h2 class="page-title"><span>{{greeting}}</span></h2>
+
+    <!--<h2 class="page-title"><span>{{greeting}}</span></h2>
     <span class="paper-font-body2">Update text to change the greeting.</span>
     <!-- Listens for "input" event and sets greeting to <input>.value -->
-    <input class="paper-font-body2" value="{{greeting::input}}">
+    <!--<input class="paper-font-body2" value="{{greeting::input}}">-->
+
+    <iron-ajax auto
+        url="http://localhost:5000/projects"
+        params='{}'
+        handle-as="json"
+        last-response="{{ajaxResponse}}"></iron-ajax>
+
+        <template is="dom-repeat" items="[[ajaxResponse.items]]">
+            <div class="item" tabindex="0">
+              <paper-icon-button icon="folder"></paper-icon-button>
+              <p>Project: <span>[[item.title]]</span></p>
+            </div>
+        </template>
+
+
   </template>
 
   <script>
     (function() {
       'use strict';
-      
+
       Polymer({
         is: 'my-greeting',
 
