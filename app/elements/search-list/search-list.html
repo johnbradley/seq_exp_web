@@ -7,53 +7,66 @@
       :host {
         display: block;
       }
-      .list {
-      padding-top: 12px;
-      background-color: white;
-      margin: 12px;
-      @apply(--shadow-elevation-2dp);
-    }
-      .item {
-        @apply(--layout-horizontal);
-        margin: 16px 16px 0 16px;
-        padding: 20px;
-        border-radius: 8px;
-        background-color: white;
-        border: 1px solid #ddd;
-      }
+
       iron-icon {
         color: cyan;
         margin-right: 20px;
       }
+
       .inherit {
         color: inherit;
         background-color: inherit;
         text-decoration: none;
       }
 
+      .indentitem {
+        margin-left: 1em;
+      }
+      paper-item-body {
+        margin: 10px;
+      }
     </style>
 
-    <iron-ajax auto
-        url="{{computeUrl(searchValue)}}"
-        params='{}'
-        handle-as="json"
-        last-response="{{ajaxResponse}}">
+    <iron-ajax auto url="{{computeUrl(searchValue)}}" params='{}' handle-as="json" loading="{{listLoading}}" last-response="{{ajaxResponse}}">
     </iron-ajax>
-
-    <paper-input label="Search Term" value="{{searchValue::change}}" inline><iron-icon icon="search" prefix></iron-icon>
+    <paper-input label="Search Term" value="{{searchValue::change}}" inline>
+      <iron-icon icon="search" prefix></iron-icon>
     </paper-input>
-
-
-          <template is="dom-repeat" items="[[ajaxResponse.data]]">
-            <div>
-              <span>Title:</span>
-              <span class="paper-font-body1">[[item.Title]]</span>
-              <span>Id:</span>
-              <span class="paper-font-body1">[[item.Id]]</span>
-              <span>TaxId:</span>
-              <span class="paper-font-body1">[[item.TaxId]]</span>
+    <template is="dom-if" if="{{ajaxResponse.count}}">
+      <div class="horizontal layout paper-font-caption">
+        <div class="flex"></div>
+        Showing: (
+        <span>{{ajaxResponse.count}}</span>/
+        <span>{{ajaxResponse.total_cnt}}</span>)
+      </div>
+    </template>
+    <template is="dom-if" if="{{listLoading}}">
+      <horiz-centered>
+        <paper-spinner alt="Loading list." active></paper-spinner>
+      </horiz-centered>
+    </template>
+    <template is="dom-if" if="{{!listLoading}}">
+      <template is="dom-repeat" items="[[ajaxResponse.data]]">
+        <paper-item class="item">
+          <paper-item-body two-line class="layout vertical">
+            <div class="paper-font-title">[[item.Title]]</div>
+            <div class="paper-font-body2 indentitem">
+              <span>Caption:</span>
+              <span class="paper-font-body1">[[item.Caption]]</span>
+              <span>Length:
+                <span>
+                  <span class="paper-font-body1">[[item.Length]]</span>
+                  <span>Status:</span>
+                  <span class="paper-font-body1">[[item.Status]]</span>
+                  <span>Id:</span>
+                  <span class="paper-font-body1">[[item.Id]]</span>
+                  <span>TaxId:</span>
+                  <span class="paper-font-body1">[[item.TaxId]]</span>
             </div>
-          </template>
+          </paper-item-body>
+        </paper-item>
+      </template>
+    </template>
   </template>
 
   <script>
@@ -69,13 +82,13 @@
             value: '',
             notify: true
           },
-          ajaxParams: {
-                type: String,
-                computed: 'processParams(searchValue, 10)'
-            }
         },
         computeUrl: function(term) {
-          return "http://localhost:5000/entrez/nucleotide?term=" + term + "&retmax=100";
+          if (term) {
+            return "http://localhost:5000/entrez/nucleotide?term=" + term + "&retmax=100";
+          } else {
+            return '';
+          }
         }
       });
     })();
