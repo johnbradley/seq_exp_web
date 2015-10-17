@@ -20,8 +20,9 @@
         handle-as="json"
         last-response="{{ajaxResponse}}">
     </iron-ajax>
-    <h2 class="page-title"><span>Project:</span></h2>
+    <h2 class="page-title"><span>Project</span></h2>
     <h2><span>{{ajaxResponse.title}}</span></h2>
+    <paper-input label="Title" value="{{ajaxResponse.title}}"></paper-input>
 
 </template>
 
@@ -31,10 +32,6 @@
 
       Polymer({
         is: 'project-edit',
-        handleClick: function() {
-          alert('Ow!');
-        },
-
         properties: {
           projectId: {
             type: String,
@@ -46,7 +43,7 @@
           },
         },
         computeUrl: function(projectId) {
-          return 'http://localhost:5000/projects/' + projectId
+          return 'http://localhost:5000/projects/' + projectId;
       }
 
       });

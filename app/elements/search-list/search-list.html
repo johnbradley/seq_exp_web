@@ -1,0 +1,84 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="search-list">
+  <template is="dom-bind">
+    <style include="shared-styles"></style>
+    <style>
+      :host {
+        display: block;
+      }
+      .list {
+      padding-top: 12px;
+      background-color: white;
+      margin: 12px;
+      @apply(--shadow-elevation-2dp);
+    }
+      .item {
+        @apply(--layout-horizontal);
+        margin: 16px 16px 0 16px;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: white;
+        border: 1px solid #ddd;
+      }
+      iron-icon {
+        color: cyan;
+        margin-right: 20px;
+      }
+      .inherit {
+        color: inherit;
+        background-color: inherit;
+        text-decoration: none;
+      }
+
+    </style>
+
+    <iron-ajax auto
+        url="{{computeUrl(searchValue)}}"
+        params='{}'
+        handle-as="json"
+        last-response="{{ajaxResponse}}">
+    </iron-ajax>
+
+    <paper-input label="Search Term" value="{{searchValue::change}}" inline><iron-icon icon="search" prefix></iron-icon>
+    </paper-input>
+
+
+          <template is="dom-repeat" items="[[ajaxResponse.data]]">
+            <div>
+              <span>Title:</span>
+              <span class="paper-font-body1">[[item.Title]]</span>
+              <span>Id:</span>
+              <span class="paper-font-body1">[[item.Id]]</span>
+              <span>TaxId:</span>
+              <span class="paper-font-body1">[[item.TaxId]]</span>
+            </div>
+          </template>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'search-list',
+
+        properties: {
+          searchValue: {
+            type: String,
+            value: '',
+            notify: true
+          },
+          ajaxParams: {
+                type: String,
+                computed: 'processParams(searchValue, 10)'
+            }
+        },
+        computeUrl: function(term) {
+          return "http://localhost:5000/entrez/nucleotide?term=" + term + "&retmax=100";
+        }
+      });
+    })();
+  </script>
+
+</dom-module>
